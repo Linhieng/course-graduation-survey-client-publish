@@ -7,7 +7,9 @@ import router from '@/router';
 
 export const useAnswerStore = defineStore('answer', {
     state: (): AnswerStore => ({
-        answer: {},
+        answer: {
+            data: [],
+        },
         survey: {
             id: undefined,
             comment: '',

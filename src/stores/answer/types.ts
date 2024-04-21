@@ -1,5 +1,8 @@
 export interface AnswerStore {
-    answer: {};
+    answer: {
+        /** 问题回答填写在这里。不要使用可选，全部写成一个对象比较方便！ */
+        data: AnswerItem[];
+    };
     survey: {
         id: number | undefined;
         title: string;
@@ -17,6 +20,11 @@ export interface AnswerStore {
 //
 //
 //
+export interface AnswerItem {
+    id: string;
+    text: string;
+    option_text: Array<{ id: string; text: string }>;
+}
 //
 //
 //
@@ -82,7 +90,35 @@ export type QuestionType =
     /** 单选题 */
     | 'single_select'
     /** 多选题 */
-    | 'multi_select';
+    | 'multi_select'
+    // /** 图片单选题 */
+    // | 'pic_single_select'
+    // /** 图片多选题 */
+    // | 'pic_multi_select'
+    // /** 单文件上传 */
+    // | 'single_file'
+    // /** 多文件上传 */
+    // | 'multi_file'
+    // /** 评分题 */
+    // | 'score'
+    // /** 量表题 */
+    // | 'NPS'
+    // /** 矩阵单选 */
+    // | 'matrix_single_select'
+    // /** 矩阵多选 */
+    // | 'matrix_multi_select'
+    // /** 矩阵量表 */
+    // | 'matrix_NPS'
+    // /** 矩阵评分 */
+    // | 'matrix_scope'
+    // /** 自增文本 */
+    // | 'auto_text'
+    // /** 填充题 */
+    // | 'input_text'
+    // /** 自增表格 */
+    // | 'auto_table'
+    /** 非填空的文本描述 */
+    | 'desc';
 
 /** 一个选项 */
 export interface QuestionOption {
