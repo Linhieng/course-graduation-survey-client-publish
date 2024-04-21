@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import FillAnswer from '@/views/fill-answer.vue';
+import FillAnswer from '@/views/answer/index.vue';
 import NotFount from '@/views/not-found.vue';
 
 const router = createRouter({
@@ -12,6 +12,7 @@ const router = createRouter({
         },
         {
             path: '/:pathMatch(.*)*',
+            name: 'not-found',
             component: NotFount,
         },
     ],
