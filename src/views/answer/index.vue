@@ -11,7 +11,6 @@ answerStore.getSurvey(Number(props.id));
 
 <template>
     <div class="container">
-        <p>填写问卷 {{ id }}</p>
         <div class="img-box">
             <!-- <img src="" alt=""> -->
         </div>
@@ -45,18 +44,18 @@ answerStore.getSurvey(Number(props.id));
         left: 0;
         right: 0;
         bottom: 0;
-        overflow: hidden;
+        overflow: auto;
     }
 }
 
 .img-box {
     background-color: #e1e1e1;
+    background-image: linear-gradient(#000, #fff);
 }
 
 .main {
     width: 60%;
     background-color: white;
-    overflow: auto;
 }
 .center {
     margin-left: auto;
