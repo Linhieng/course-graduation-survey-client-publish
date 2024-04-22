@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { QuestionItem } from '@/stores/answer/types';
 import { useAnswerStore } from '@/stores/answer';
-import myRadio from '@/components/my-radio.vue';
+import MyRadio from '@/components/my-radio.vue';
+import MyCheckbox from '@/components/my-checkbox.vue';
 import { ref } from 'vue';
 const answerStore = useAnswerStore();
 defineProps<{
@@ -30,6 +31,15 @@ const abc = ref();
         <p>{{ question.desc }}</p>
         <my-radio
             :radio_list="question.options"
+            :question="question"
+            @change="(item) => (answerStore.answer.data[questionIndex].option_text = item)"
+        />
+    </a-space>
+    <a-space v-else-if="question.type === 'multi_select'" direction="vertical" fill>
+        <h2>{{ question.title }}</h2>
+        <p>{{ question.desc }}</p>
+        <my-checkbox
+            :data_list="question.options"
             :question="question"
             @change="(item) => (answerStore.answer.data[questionIndex].option_text = item)"
         />
