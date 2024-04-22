@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { QuestionItem } from '@/stores/answer/types';
+import type { QuestionItem, QuestionOption } from '@/stores/answer/types';
 import { useAnswerStore } from '@/stores/answer';
-import MyRadio from '@/components/my-radio.vue';
 import MyTag from '@/components/my-tag.vue';
+import { ref } from 'vue';
 const answerStore = useAnswerStore();
 
 const props = defineProps<{
@@ -10,6 +10,21 @@ const props = defineProps<{
     questionIndex: number;
 }>();
 const order = props.questionIndex + 1;
+
+//
+//
+//
+//
+
+const checkedValue = ref<QuestionOption[]>(answerStore.answer.data[props.questionIndex].option_text);
+const check = (item: QuestionOption) => {
+    checkedValue.value = [item];
+    answerStore.answer.data[props.questionIndex].option_text = [item];
+    if (!props.question.required) return;
+
+    answerStore.local.validForEveryQuestion[props.questionIndex] =
+        answerStore.answer.data[props.questionIndex].option_text.length >= 1;
+};
 </script>
 
 <template>
@@ -26,17 +41,26 @@ const order = props.questionIndex + 1;
             </a-space>
         </h2>
         <p>{{ question.desc }}</p>
-        <MyRadio
-            :radio_list="question.options"
-            :question="question"
-            @change="
-                (item) => {
-                    answerStore.answer.data[questionIndex].option_text = item;
-                    if (!question.required) return;
-                    answerStore.local.validForEveryQuestion[questionIndex] = item.length >= 1;
-                }
-            "
-        />
+        <!--  -->
+        <!--  -->
+        <!--  -->
+        <!--  -->
+        <!--  -->
+        <a-space class="radio-group" aria-label="radio-group" wrap size="medium">
+            <label
+                class="radio"
+                v-for="item in question.options"
+                :class="{ 'is-checked': checkedValue[0]?.id === item.id }"
+            >
+                <span class="radio__icon">
+                    <span class="radio__icon_selected"></span>
+                </span>
+                <a-space size="mini">
+                    <input type="radio" :value="JSON.stringify(item)" :name="question.id" @change="check(item)" />
+                    <span class="radio__label">{{ item.text }}</span>
+                </a-space>
+            </label>
+        </a-space>
     </a-space>
 </template>
 
@@ -51,6 +75,55 @@ h2 {
         position: absolute;
         top: 0;
         right: calc(100% + 1rem);
+    }
+}
+
+.radio-group {
+    display: flex;
+    .radio {
+        min-width: 100px;
+        padding: 10px;
+        background: white;
+        color: black;
+        display: flex;
+        border: 1px solid #dcdfe6;
+        border-radius: 4px;
+        transition: all 200ms;
+
+        position: relative;
+        padding-left: 30px;
+        .radio__icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            left: 10px;
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            border: 1px solid #999;
+            background-color: white;
+            .radio__icon_selected {
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                right: 2px;
+                bottom: 2px;
+                border-radius: 50%;
+                background-color: #409eff;
+                opacity: 0;
+                transition: all 200ms;
+            }
+        }
+    }
+    input {
+        appearance: none;
+    }
+    .radio.is-checked {
+        background: #409eff;
+        color: white;
+        .radio__icon_selected {
+            opacity: 1;
+        }
     }
 }
 </style>
