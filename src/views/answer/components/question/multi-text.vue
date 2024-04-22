@@ -26,7 +26,9 @@ const order = props.questionIndex + 1;
         </h2>
         <p>{{ question.desc }}</p>
         <a-textarea
-            auto-size
+            :auto-size="{
+                minRows: 3,
+            }"
             v-model="answerStore.answer.data[questionIndex].text"
             @update:modelValue="
                 (v: string) => {

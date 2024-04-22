@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { QuestionItem } from '@/stores/answer/types';
-import { useAnswerStore } from '@/stores/answer';
-import MyRadio from '@/components/my-radio.vue';
-import MyCheckbox from '@/components/my-checkbox.vue';
-const answerStore = useAnswerStore();
+import Desc from './question/desc.vue';
+import SingleText from './question/single-text.vue';
+import MultiText from './question/multi-text.vue';
+import SingleSelect from './question/single-select.vue';
+import MultiSelect from './question/multi-select.vue';
 defineProps<{
     question: QuestionItem;
     questionIndex: number;
@@ -18,92 +19,20 @@ defineProps<{
             required: question.required,
         }"
     >
-        <a-space v-if="question.type === 'desc'" direction="vertical" fill>
-            <h2 class="desc">{{ question.title }}</h2>
-        </a-space>
-        <a-space v-else-if="question.type === 'single_text'" direction="vertical" fill>
-            <h2>{{ question.title }}</h2>
-            <p>{{ question.desc }}</p>
-            <a-textarea
-                auto-size
-                v-model="answerStore.answer.data[questionIndex].text"
-                @update:modelValue="
-                    (v: string) => {
-                        if (!question.required) return;
-                        answerStore.local.validForEveryQuestion[questionIndex] = v.trim() !== '';
-                    }
-                "
-            ></a-textarea>
-        </a-space>
-        <a-space v-else-if="question.type === 'multi_text'" direction="vertical" fill>
-            <h2>{{ question.title }}</h2>
-            <p>{{ question.desc }}</p>
-            <a-textarea
-                :auto-size="{ minRows: 3 }"
-                v-model="answerStore.answer.data[questionIndex].text"
-                @update:modelValue="
-                    (v: string) => {
-                        if (!question.required) return;
-                        answerStore.local.validForEveryQuestion[questionIndex] = v.trim() !== '';
-                    }
-                "
-            ></a-textarea>
-        </a-space>
-        <a-space v-else-if="question.type === 'single_select'" direction="vertical" fill>
-            <h2>{{ question.title }}</h2>
-            <p>{{ question.desc }}</p>
-            <my-radio
-                :radio_list="question.options"
-                :question="question"
-                @change="
-                    (item) => {
-                        answerStore.answer.data[questionIndex].option_text = item;
-                        if (!question.required) return;
-                        answerStore.local.validForEveryQuestion[questionIndex] = item.length >= 1;
-                    }
-                "
-            />
-        </a-space>
-        <a-space v-else-if="question.type === 'multi_select'" direction="vertical" fill>
-            <h2>{{ question.title }}</h2>
-            <p>{{ question.desc }}</p>
-            <my-checkbox
-                :data_list="question.options"
-                :question="question"
-                @change="
-                    (item) => {
-                        answerStore.answer.data[questionIndex].option_text = item;
-                        if (!question.required) return;
-                        answerStore.local.validForEveryQuestion[questionIndex] = item.length >= 1;
-                    }
-                "
-            />
-        </a-space>
+        <template v-if="question.type === 'desc'">
+            <Desc :question="question" :questionIndex="questionIndex" />
+        </template>
+        <template v-else-if="question.type === 'single_text'">
+            <SingleText :question="question" :questionIndex="questionIndex" />
+        </template>
+        <template v-else-if="question.type === 'multi_text'">
+            <MultiText :question="question" :questionIndex="questionIndex" />
+        </template>
+        <template v-else-if="question.type === 'single_select'">
+            <SingleSelect :question="question" :questionIndex="questionIndex" />
+        </template>
+        <template v-else-if="question.type === 'multi_select'">
+            <MultiSelect :question="question" :questionIndex="questionIndex" />
+        </template>
     </div>
 </template>
-
-<style scoped lang="scss">
-.desc {
-    font-size: 1.2rem;
-}
-.question-item-wrap {
-    position: relative;
-    h2 {
-        position: relative;
-    }
-    &::after {
-        content: attr(data-order);
-        color: #333;
-        font-size: 1.3rem;
-        position: absolute;
-        top: 0;
-        right: calc(100% + 1.2rem);
-    }
-    &.required h2::before {
-        content: '*';
-        color: red;
-        position: absolute;
-        left: -1rem;
-    }
-}
-</style>

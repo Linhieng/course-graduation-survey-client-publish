@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { QuestionItem } from '@/stores/answer/types';
 import { useAnswerStore } from '@/stores/answer';
+import MyRadio from '@/components/my-radio.vue';
 import MyTag from '@/components/my-tag.vue';
 const answerStore = useAnswerStore();
 
@@ -25,16 +26,17 @@ const order = props.questionIndex + 1;
             </a-space>
         </h2>
         <p>{{ question.desc }}</p>
-        <a-textarea
-            auto-size
-            v-model="answerStore.answer.data[questionIndex].text"
-            @update:modelValue="
-                (v: string) => {
+        <MyRadio
+            :radio_list="question.options"
+            :question="question"
+            @change="
+                (item) => {
+                    answerStore.answer.data[questionIndex].option_text = item;
                     if (!question.required) return;
-                    answerStore.local.validForEveryQuestion[questionIndex] = v.trim() !== '';
+                    answerStore.local.validForEveryQuestion[questionIndex] = item.length >= 1;
                 }
             "
-        ></a-textarea>
+        />
     </a-space>
 </template>
 
