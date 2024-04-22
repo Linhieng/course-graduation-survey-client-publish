@@ -30,6 +30,17 @@ answerStore.getSurvey(Number(props.id));
 </template>
 
 <style scoped lang="scss">
+@mixin big-width {
+    @media screen and (min-width: 768px) {
+        @content;
+    }
+}
+@mixin phone {
+    @media screen and not (hover: hover) {
+        @content;
+    }
+}
+
 .container {
     width: 100vw;
     height: 100vh;
@@ -61,20 +72,25 @@ answerStore.getSurvey(Number(props.id));
 
 .main {
     width: 60%;
+    @include phone {
+        width: 100%;
+    }
     background-color: white;
 }
-.center {
-    margin-left: auto;
-    margin-right: auto;
-}
-.left {
-    padding-left: 100px;
-    margin-left: 0;
-    margin-right: auto;
-}
-.right {
-    padding-right: 100px;
-    margin-left: 0;
-    margin-right: auto;
+@include big-width {
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .left {
+        padding-left: 100px;
+        margin-left: 0;
+        margin-right: auto;
+    }
+    .right {
+        padding-right: 100px;
+        margin-left: 0;
+        margin-right: auto;
+    }
 }
 </style>
