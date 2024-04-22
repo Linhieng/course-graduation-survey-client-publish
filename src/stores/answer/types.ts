@@ -23,7 +23,7 @@ export interface AnswerStore {
 export interface AnswerItem {
     id: string;
     text: string;
-    option_text: Array<{ id: string; text: string }>;
+    option_text: Array<QuestionOption>;
 }
 //
 //

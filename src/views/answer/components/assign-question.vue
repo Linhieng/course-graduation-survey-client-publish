@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import type { QuestionItem } from '@/stores/answer/types';
 import { useAnswerStore } from '@/stores/answer';
+import myRadio from '@/components/my-radio.vue';
+import { ref } from 'vue';
 const answerStore = useAnswerStore();
 defineProps<{
     question: QuestionItem;
     questionIndex: number;
 }>();
+const abc = ref();
 </script>
 
 <template>
@@ -25,14 +28,11 @@ defineProps<{
     <a-space v-else-if="question.type === 'single_select'" direction="vertical" fill>
         <h2>{{ question.title }}</h2>
         <p>{{ question.desc }}</p>
-        {{ question.options }}
-        <a-radio-group>
-            <a-radio :value="option.id" v-for="option in question.options">
-                <template #radio="{ checked }">
-                    <a-tag :checked="checked" checkable>{{ $options.text }}</a-tag>
-                </template>
-            </a-radio>
-        </a-radio-group>
+        <my-radio
+            :radio_list="question.options"
+            :question="question"
+            @change="(item) => (answerStore.answer.data[questionIndex].option_text = item)"
+        />
     </a-space>
 </template>
 
