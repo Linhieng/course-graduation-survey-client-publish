@@ -8,12 +8,7 @@ const answerStore = useAnswerStore();
     <div>
         <div class="container">
             <h1>
-                <a-skeleton animation v-if="answerStore.local.isFetching">
-                    <a-skeleton-line :rows="1" />
-                </a-skeleton>
-                <template v-else>
-                    {{ $t(answerStore.survey.title) }}
-                </template>
+                {{ $t(answerStore.survey.title) }}
             </h1>
             <p class="desc">
                 <a-skeleton animation v-if="answerStore.local.isFetching">

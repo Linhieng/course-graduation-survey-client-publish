@@ -6,6 +6,7 @@ import { watch } from 'vue';
 import { useLocalStorage } from '@vueuse/core';
 import { getBasicQuestionTemplate } from '@/stores/answer/utils';
 import type { AnswerItem } from '@/stores/answer/types';
+import SurveySkeleton from './components/survey-skeleton.vue';
 const answerStore = useAnswerStore();
 const props = defineProps<{
     id: number | string;
@@ -29,22 +30,28 @@ watch(
 </script>
 
 <template>
-    <div v-if="answerStore.local.hasSubmit">
-        <completed-page>
-            {{ $t('已提交') }}
-        </completed-page>
-    </div>
-    <div class="container" v-else>
-        <div class="img-box">
-            <!-- <img src="" alt=""> -->
+    <template v-if="answerStore.local.isFetching">
+        <h1 style="text-align: center">正在获取……</h1>
+        <SurveySkeleton />
+    </template>
+    <template v-else>
+        <div v-if="answerStore.local.hasSubmit">
+            <completed-page>
+                {{ $t('已提交') }}
+            </completed-page>
         </div>
-        <div class="survey-box">
-            <div class="main center">
-                <survey-box></survey-box>
+        <div class="container" v-else>
+            <div class="img-box">
+                <!-- <img src="" alt=""> -->
             </div>
+            <div class="survey-box">
+                <div class="main center">
+                    <survey-box></survey-box>
+                </div>
+            </div>
+            <footer>问卷系统 @ linhieng</footer>
         </div>
-        <footer>问卷系统 @ linhieng</footer>
-    </div>
+    </template>
 </template>
 
 <style scoped lang="scss">
