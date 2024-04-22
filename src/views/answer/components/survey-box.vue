@@ -31,6 +31,16 @@ const answerStore = useAnswerStore();
                     :questionIndex="questionIndex"
                 />
             </a-space>
+            <div style="display: flex; justify-content: center">
+                <a-button
+                    :loading="answerStore.local.isPushing"
+                    class="submit-btn"
+                    type="primary"
+                    @click="answerStore.submitAnswer()"
+                >
+                    提交
+                </a-button>
+            </div>
         </div>
     </div>
 </template>
@@ -54,6 +64,12 @@ const answerStore = useAnswerStore();
 
     .question-list {
         padding: 40px;
+    }
+
+    .submit-btn {
+        width: 80%;
+        padding: 20px;
+        font-size: 1.3rem;
     }
 }
 </style>

@@ -1,9 +1,10 @@
 import { defineStore } from 'pinia';
 import type { AnswerStore } from './types';
-import { apiAnswerGetSurvey } from '@/api/answer';
-import { msgError } from '@/utils/msg';
+import { apiAnswerGetSurvey, apiAnswerPost } from '@/api/answer';
+import { msgError, msgSuccess } from '@/utils/msg';
 import { getSurveySuccessCallback } from './utils';
 import router from '@/router';
+import { useLocalStorage } from '@vueuse/core';
 
 export const useAnswerStore = defineStore('answer', {
     state: (): AnswerStore => ({
@@ -19,9 +20,32 @@ export const useAnswerStore = defineStore('answer', {
         local: {
             isFetching: false,
             isPushing: false,
+            hasSubmit: useLocalStorage('has-submit', false),
         },
     }),
     actions: {
+        /** 提交问卷 */
+        async submitAnswer() {
+            if (!this.survey.id) return;
+
+            if (this.local.isPushing) return;
+            // 校验
+
+            this.local.isPushing = true;
+            const res = await apiAnswerPost(this.survey.id, {
+                surveyId: this.survey.id,
+                answerStructureJson: this.answer,
+            });
+            if (res.ok) {
+                msgSuccess('已提交');
+                this.local.hasSubmit = true;
+            } else {
+                msgError(res.msg);
+            }
+            this.local.isPushing = false;
+        },
+
+        /** 获取一份问卷 */
         async getSurvey(id: number) {
             if (isNaN(id)) {
                 msgError('问卷不存在');

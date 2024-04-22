@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useAnswerStore } from '@/stores/answer';
 import surveyBox from './components/survey-box.vue';
+import CompletedPage from './completed-page.vue';
 const answerStore = useAnswerStore();
 const props = defineProps<{
     id: number | string;
@@ -10,7 +11,12 @@ answerStore.getSurvey(Number(props.id));
 </script>
 
 <template>
-    <div class="container">
+    <div v-if="answerStore.local.hasSubmit">
+        <completed-page>
+            {{ $t('已提交') }}
+        </completed-page>
+    </div>
+    <div class="container" v-else>
         <div class="img-box">
             <!-- <img src="" alt=""> -->
         </div>

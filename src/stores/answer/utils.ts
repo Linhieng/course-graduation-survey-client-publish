@@ -13,6 +13,7 @@ function fillBasicQuestionTemplate(questionList: QuestionItem[]) {
     questionList.forEach((question, index) => {
         // 全部写成一个对象就可以了
         useAnswerStore().answer.data[index] = {
+            type: question.type,
             id: question.id,
             text: '',
             option_text: [],

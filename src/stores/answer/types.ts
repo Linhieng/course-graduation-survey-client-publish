@@ -1,4 +1,7 @@
+import type { RemovableRef } from '@vueuse/core';
+
 export interface AnswerStore {
+    /* AnswerStructureJson */
     answer: {
         /** 问题回答填写在这里。不要使用可选，全部写成一个对象比较方便！ */
         data: AnswerItem[];
@@ -14,6 +17,8 @@ export interface AnswerStore {
         isFetching: boolean;
         /** 正在提交回答 */
         isPushing: boolean;
+        /** 是否已提交 */
+        hasSubmit: RemovableRef<boolean>;
     };
 }
 //
@@ -21,6 +26,7 @@ export interface AnswerStore {
 //
 //
 export interface AnswerItem {
+    type: QuestionType;
     id: string;
     text: string;
     option_text: Array<QuestionOption>;
@@ -38,12 +44,13 @@ export interface ReqSurveyAnswer {
     surveyId: number;
     userId?: number;
     /** 单位秒 */
-    spendTime: number;
+    spendTime?: number;
     /** 问题回答的内容，数据库中仅保存，不解析 */
-    answerList: AnswerStructureJson;
+    answerStructureJson: AnswerStructureJson;
 }
 interface AnswerStructureJson {
-    [key: string]: any;
+    data: AnswerItem[];
+    // other
 }
 //
 //
