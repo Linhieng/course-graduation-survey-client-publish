@@ -29,6 +29,7 @@ export interface AnswerStore {
 //
 export interface AnswerItem {
     type: QuestionType;
+    required: boolean;
     id: string;
     text: string;
     option_text: Array<QuestionOption>;

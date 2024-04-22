@@ -1,16 +1,15 @@
 import { defineStore } from 'pinia';
-import type { AnswerStore } from './types';
+import type { AnswerItem, AnswerStore } from './types';
 import { apiAnswerGetSurvey, apiAnswerPost } from '@/api/answer';
 import { msgError, msgSuccess, msgWarning } from '@/utils/msg';
-import { fillBasicQuestionTemplate, getSurveySuccessCallback } from './utils';
+import { getSurveySuccessCallback } from './utils';
 import router from '@/router';
-import { useLocalStorage } from '@vueuse/core';
-import { ref, watch } from 'vue';
+import { useLocalStorage, type RemovableRef } from '@vueuse/core';
 
 export const useAnswerStore = defineStore('answer', {
     state: (): AnswerStore => ({
         answer: {
-            data: [],
+            data: [] as any as RemovableRef<AnswerItem[]>,
         },
         survey: {
             id: undefined,
@@ -26,6 +25,17 @@ export const useAnswerStore = defineStore('answer', {
         },
     }),
     actions: {
+        recheckValid() {
+            if (this.answer.data.length < 1) return;
+            this.local.validForEveryQuestion = this.answer.data.map((item, i) => {
+                if (item.type === 'desc') return true;
+                if (!item.required) return true;
+                if (item.text !== '') return true;
+                if (item.option_text.length > 1) return true;
+
+                return false;
+            });
+        },
         checkValid() {
             const firstUnValid = this.local.validForEveryQuestion.indexOf(false);
 
