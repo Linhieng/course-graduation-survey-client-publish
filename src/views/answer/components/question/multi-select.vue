@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { QuestionItem, QuestionOption } from '@/stores/answer/types';
 import { useAnswerStore } from '@/stores/answer';
-import MyTag from '@/components/my-tag.vue';
 import { ref } from 'vue';
 const answerStore = useAnswerStore();
 
@@ -53,7 +52,7 @@ const check = (optionIndex: number) => {
             :data-order="order"
         >
             <a-space>
-                <MyTag v-if="question.required" text="必填" red />
+                <a-tag v-if="question.required" color="#f53f3f">{{ $t('必填') }}</a-tag>
                 {{ question.title }}
             </a-space>
         </h2>

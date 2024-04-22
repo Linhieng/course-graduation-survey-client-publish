@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { QuestionItem } from '@/stores/answer/types';
 import { useAnswerStore } from '@/stores/answer';
-import MyTag from '@/components/my-tag.vue';
 const answerStore = useAnswerStore();
 
 const props = defineProps<{
@@ -20,7 +19,7 @@ const order = props.questionIndex + 1;
             :data-order="order"
         >
             <a-space>
-                <MyTag v-if="question.required" text="必填" red />
+                <a-tag v-if="question.required" color="#f53f3f">{{ $t('必填') }}</a-tag>
                 {{ question.title }}
             </a-space>
         </h2>
