@@ -4,7 +4,7 @@ export interface AnswerStore {
     /* AnswerStructureJson */
     answer: {
         /** 问题回答填写在这里。不要使用可选，全部写成一个对象比较方便！ */
-        data: AnswerItem[];
+        data: RemovableRef<AnswerItem[]>;
     };
     survey: {
         id: number | undefined;

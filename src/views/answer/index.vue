@@ -2,12 +2,30 @@
 import { useAnswerStore } from '@/stores/answer';
 import surveyBox from './components/survey-box.vue';
 import CompletedPage from './completed-page.vue';
+import { watch } from 'vue';
+import { useLocalStorage } from '@vueuse/core';
+import { getBasicQuestionTemplate } from '@/stores/answer/utils';
+import type { AnswerItem } from '@/stores/answer/types';
 const answerStore = useAnswerStore();
 const props = defineProps<{
     id: number | string;
 }>();
 
 answerStore.getSurvey(Number(props.id));
+
+watch(
+    () => useAnswerStore().survey.questionList,
+    (questionList) => {
+        // @ts-ignore
+        useAnswerStore().answer.data = useLocalStorage<AnswerItem[]>(
+            `answer-data-${props.id}`,
+            getBasicQuestionTemplate(questionList),
+        );
+    },
+    {
+        once: true,
+    },
+);
 </script>
 
 <template>

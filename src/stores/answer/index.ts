@@ -2,9 +2,10 @@ import { defineStore } from 'pinia';
 import type { AnswerStore } from './types';
 import { apiAnswerGetSurvey, apiAnswerPost } from '@/api/answer';
 import { msgError, msgSuccess, msgWarning } from '@/utils/msg';
-import { getSurveySuccessCallback } from './utils';
+import { fillBasicQuestionTemplate, getSurveySuccessCallback } from './utils';
 import router from '@/router';
 import { useLocalStorage } from '@vueuse/core';
+import { ref, watch } from 'vue';
 
 export const useAnswerStore = defineStore('answer', {
     state: (): AnswerStore => ({
@@ -73,7 +74,7 @@ export const useAnswerStore = defineStore('answer', {
                 msgError(res.msg);
                 router.push({ name: 'not-found' });
             } else {
-                getSurveySuccessCallback(res.data);
+                getSurveySuccessCallback(res.data, id);
             }
             this.local.isFetching = false;
         },
