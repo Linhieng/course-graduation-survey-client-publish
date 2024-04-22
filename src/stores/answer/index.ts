@@ -21,7 +21,8 @@ export const useAnswerStore = defineStore('answer', {
             validForEveryQuestion: [],
             isFetching: false,
             isPushing: false,
-            hasSubmit: useLocalStorage('has-submit', false),
+            // 这里想要使用 useLocalStorage，有点麻烦，似乎需要组合式 api 才能比较好的实现
+            hasSubmit: false,
         },
     }),
     actions: {
@@ -63,6 +64,7 @@ export const useAnswerStore = defineStore('answer', {
             if (res.ok) {
                 msgSuccess('已提交');
                 this.local.hasSubmit = true;
+                localStorage.setItem(`has-submit-${this.$state.survey.id}`, 'true');
             } else {
                 msgError(res.msg);
             }
@@ -77,6 +79,7 @@ export const useAnswerStore = defineStore('answer', {
                 return;
             }
             this.survey.id = id;
+            this.$state.local.hasSubmit = Boolean(localStorage.getItem(`has-submit-${id}`) === 'true');
             if (this.local.isFetching) return;
             this.local.isFetching = true;
             const res = await apiAnswerGetSurvey(id);

@@ -20,7 +20,7 @@ export interface AnswerStore {
         /** 正在提交回答 */
         isPushing: boolean;
         /** 是否已提交 */
-        hasSubmit: RemovableRef<boolean>;
+        hasSubmit: boolean;
     };
 }
 //
