@@ -32,7 +32,7 @@ export const useAnswerStore = defineStore('answer', {
                 if (item.type === 'desc') return true;
                 if (!item.required) return true;
                 if (item.text !== '') return true;
-                if (item.option_text.length > 1) return true;
+                if (item.option_text.length > 0) return true;
 
                 return false;
             });
