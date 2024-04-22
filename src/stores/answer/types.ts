@@ -13,6 +13,8 @@ export interface AnswerStore {
         questionList: QuestionItem[];
     };
     local: {
+        /** 每个问题的回答是否有效 */
+        validForEveryQuestion: boolean[];
         /** 正在获取问卷 */
         isFetching: boolean;
         /** 正在提交回答 */
