@@ -64,6 +64,9 @@ watch(
     @media screen and not (hover: hover) {
         @content;
     }
+    @media screen and (max-width: 768px) {
+        @content;
+    }
 }
 
 .container {
