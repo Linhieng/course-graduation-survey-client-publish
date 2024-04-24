@@ -70,6 +70,10 @@ export const useAnswerStore = defineStore('answer', {
             }
             this.local.isPushing = false;
         },
+        reAnswer() {
+            this.local.hasSubmit = false;
+            localStorage.removeItem(`has-submit-${this.$state.survey.id}`);
+        },
 
         /** 获取一份问卷 */
         async getSurvey(id: number) {

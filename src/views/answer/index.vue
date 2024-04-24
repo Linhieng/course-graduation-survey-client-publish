@@ -37,7 +37,10 @@ watch(
     <template v-else>
         <div v-if="answerStore.local.hasSubmit">
             <completed-page>
-                {{ $t('已提交') }}
+                <a-space direction="vertical" fill>
+                    <span>{{ $t('已提交') }}</span>
+                    <a-button @click="useAnswerStore().reAnswer">{{ $t('重新回答') }}</a-button>
+                </a-space>
             </completed-page>
         </div>
         <div class="container" v-else>
