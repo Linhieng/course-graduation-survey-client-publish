@@ -8,6 +8,7 @@ import { useLocalStorage, type RemovableRef } from '@vueuse/core';
 
 export const useAnswerStore = defineStore('answer', {
     state: (): AnswerStore => ({
+        startTime: new Date().getTime(),
         answer: {
             data: [] as any as RemovableRef<AnswerItem[]>,
         },
@@ -60,6 +61,7 @@ export const useAnswerStore = defineStore('answer', {
             const res = await apiAnswerPost(this.survey.id, {
                 surveyId: this.survey.id,
                 answerStructureJson: this.answer,
+                spendTime: (new Date().getTime() - this.$state.startTime) / 1000
             });
             if (res.ok) {
                 msgSuccess('已提交');

@@ -3,6 +3,7 @@ import { useAnswerStore } from '.';
 import type { AnswerItem, ApiResSurvey, QuestionItem } from './types';
 
 export function getSurveySuccessCallback(data: ApiResSurvey, surveyId: number) {
+    useAnswerStore().startTime = new Date().getTime();
     useAnswerStore().survey.title = data.title;
     useAnswerStore().survey.comment = data.comment;
     useAnswerStore().survey.questionList = data.structure_json.questionList;
