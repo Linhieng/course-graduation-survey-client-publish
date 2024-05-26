@@ -84,6 +84,7 @@ export interface SurveyStructureJson {
 export interface QuestionItem {
     id: string;
     type: QuestionType;
+    /** 虽然是 order，但这里是从 0 开始，这算是遗留问题吧？ */
     order: number;
     title: string;
     required: boolean;
@@ -93,6 +94,13 @@ export interface QuestionItem {
     desc: string;
     /** 通用选项，包括单选项、多选项、图片选项等等 */
     options: Array<QuestionOption>;
+    /** 矩阵类型问题的子标题数组 */
+    titles: Array<QuestionTitlesItem>;
+}
+/** 类型为矩阵问题中的单项问题标题 */
+export interface QuestionTitlesItem {
+    id: string;
+    text: string;
 }
 export type QuestionType =
     /** 单行文本 */
@@ -115,10 +123,10 @@ export type QuestionType =
     // | 'score'
     // /** 量表题 */
     // | 'NPS'
-    // /** 矩阵单选 */
-    // | 'matrix_single_select'
-    // /** 矩阵多选 */
-    // | 'matrix_multi_select'
+    /** 矩阵单选 */
+    | 'matrix_single_select'
+    /** 矩阵多选 */
+    | 'matrix_multi_select'
     // /** 矩阵量表 */
     // | 'matrix_NPS'
     // /** 矩阵评分 */
