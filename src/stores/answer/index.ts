@@ -17,6 +17,10 @@ export const useAnswerStore = defineStore('answer', {
             comment: '',
             title: '',
             questionList: [],
+            skin: {
+                bg_img: 'repeating-linear-gradient(0deg, #48c6ef 0%,#6f86d6 100%)',
+                background_image: '',
+            },
         },
         local: {
             validForEveryQuestion: [],

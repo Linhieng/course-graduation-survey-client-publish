@@ -8,14 +8,14 @@ const answerStore = useAnswerStore();
     <div>
         <div class="container">
             <h1>
-                {{ $t(answerStore.survey.title) }}
+                {{ answerStore.survey.title }}
             </h1>
             <p class="desc">
                 <a-skeleton animation v-if="answerStore.local.isFetching">
                     <a-skeleton-line :rows="1" />
                 </a-skeleton>
                 <template v-else>
-                    {{ $t(answerStore.survey.comment) }}
+                    {{ answerStore.survey.comment }}
                 </template>
             </p>
             <a-space class="question-list" :size="40" direction="vertical" fill>
@@ -26,7 +26,7 @@ const answerStore = useAnswerStore();
                     :questionIndex="questionIndex"
                 />
             </a-space>
-            <div style="display: flex; justify-content: center">
+            <div class="btn-wrap">
                 <a-button
                     :loading="answerStore.local.isPushing"
                     class="submit-btn"
@@ -40,10 +40,13 @@ const answerStore = useAnswerStore();
     </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 .container {
     width: 100%;
+    min-height: 100vh;
     padding: 40px;
+    padding-bottom: 80px;
+    position: relative;
 
     h1,
     p {
@@ -61,10 +64,19 @@ const answerStore = useAnswerStore();
         padding: 40px;
     }
 
-    .submit-btn {
-        width: 80%;
-        padding: 20px;
-        font-size: 1.3rem;
+    .btn-wrap {
+        width: 100%;
+        position: absolute;
+        left: 0;
+        bottom: 50px;
+        display: flex;
+        justify-content: center;
+        .submit-btn {
+            width: 80%;
+            padding: 20px;
+            margin: auto;
+            font-size: 1.3rem;
+        }
     }
 }
 </style>

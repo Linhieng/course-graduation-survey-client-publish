@@ -58,6 +58,7 @@ export function getSurveySuccessCallback(data: ApiResSurvey, surveyId: number) {
     useAnswerStore().survey.title = data.title;
     useAnswerStore().survey.comment = data.comment;
     useAnswerStore().survey.questionList = data.structure_json.questionList;
+    useAnswerStore().survey.skin = data.skin;
 
     // @ts-ignore 获取本地缓存问卷
     useAnswerStore().answer.data = useLocalStorage<AnswerItem[]>(

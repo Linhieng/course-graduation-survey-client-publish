@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useAnswerStore } from '@/stores/answer';
-import surveyBox from './components/survey-box.vue';
+import SurveyBox from './components/survey-box.vue';
 import CompletedPage from './completed-page.vue';
-import { watch } from 'vue';
+import { computed, watch } from 'vue';
 import { useLocalStorage } from '@vueuse/core';
 import { getBasicQuestionTemplate } from '@/stores/answer/utils';
 import type { AnswerItem } from '@/stores/answer/types';
@@ -27,6 +27,20 @@ watch(
         once: true,
     },
 );
+
+const imgBoxStyle = computed(() => {
+    let bg = '';
+    if (answerStore.survey.skin.background_image.trim()) {
+        bg = `url(${answerStore.survey.skin.background_image})`;
+    } else {
+        bg = answerStore.survey.skin.bg_img;
+    }
+    return {
+        backgroundImage: bg,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+    };
+});
 </script>
 
 <template>
@@ -44,7 +58,7 @@ watch(
             </completed-page>
         </div>
         <div class="container" v-else>
-            <div class="img-box">
+            <div class="img-box" :style="imgBoxStyle">
                 <!-- <img src="" alt=""> -->
             </div>
             <div class="survey-box">
@@ -102,11 +116,11 @@ watch(
 }
 
 .main {
-    width: 60%;
+    width: 600px;
     @include phone {
         width: 100%;
     }
-    background-color: white;
+    background-color: #f6f8fc99;
 }
 @include big-width {
     .center {

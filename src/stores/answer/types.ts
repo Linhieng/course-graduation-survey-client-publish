@@ -13,6 +13,19 @@ export interface AnswerStore {
         title: string;
         comment: string;
         questionList: QuestionItem[];
+        skin: {
+            /** css 渐变背景 */
+            bg_img: string,
+            /** 背景图片 */
+            background_image: string,
+            survey_width?: any,
+            survey_position?: any,
+            background_image_position?: any,
+            bg_object_fit?: any,
+            bg_position?: any,
+            bg_width?: any,
+            bg_color?: any,
+        },
     };
     local: {
         /** 每个问题的回答是否有效 */
@@ -76,6 +89,8 @@ export interface ApiResSurvey {
     title: string;
     comment: string;
     structure_json: SurveyStructureJson;
+    /** 暂时这样写吧 */
+    skin: any;
 }
 export interface SurveyStructureJson {
     version: '0.2.0';
