@@ -39,6 +39,7 @@ const imgBoxStyle = computed(() => {
         backgroundImage: bg,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
+        backgroundPosition: 'center',
     };
 });
 </script>
