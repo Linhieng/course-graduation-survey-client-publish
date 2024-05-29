@@ -30,7 +30,7 @@ watch(
 
 const imgBoxStyle = computed(() => {
     let bg = '';
-    if (answerStore.survey.skin.background_image.trim()) {
+    if (answerStore.survey?.skin?.background_image?.trim()) {
         bg = `url(${answerStore.survey.skin.background_image})`;
     } else {
         bg = answerStore.survey.skin.bg_img;
