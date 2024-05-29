@@ -1,5 +1,5 @@
 <template>
-    <a-watermark content="linhieng">
+    <a-watermark content="">
         <RouterView></RouterView>
     </a-watermark>
 </template>
